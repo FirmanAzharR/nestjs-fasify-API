@@ -33,6 +33,6 @@ export class UserService {
 
   async remove(params: number): Promise<object> {
     await this.usersRepository.delete(params);
-    return {deleted: true}
+    return {deleted: true, status:"success"}
   }
 }
