@@ -6,7 +6,9 @@ import { UserEntity } from './user/user.entity';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 import { UserModule } from './user/user.module';
-import { LoggerMiddleware } from './middleware/logger.middleware'
+import { LoggerMiddleware } from './middleware/logger.middleware';
+import { LoggingInterceptor } from './middleware/logging.interceptor';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -24,7 +26,10 @@ import { LoggerMiddleware } from './middleware/logger.middleware'
     UserModule
   ],
   controllers: [AppController, UserController],
-  providers: [AppService, UserService],
+  providers: [AppService, UserService, {
+    provide: APP_INTERCEPTOR,
+    useClass: LoggingInterceptor,
+  }],
 })
 
 export class AppModule implements NestModule {

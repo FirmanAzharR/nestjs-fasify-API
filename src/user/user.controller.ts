@@ -1,7 +1,10 @@
-import { HttpStatus, ParseIntPipe,Controller, Body, Get, Post, Delete, Patch, Query } from '@nestjs/common';
+import { HttpStatus, ParseIntPipe,Controller, Body, Request, Get, Post, Delete, Patch, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto } from './user.dto';
-import {User} from './user.interface'
+import { User } from './user.interface'
+//validasi untuk satu per satu controler
+import { ValidationPipe } from '@nestjs/common'; //validasi bawaan
+// import { ValidationPipes } from '../middleware/validation.pipe'; //make custom class validation
 
 @Controller('user')
 export class UserController {
@@ -19,7 +22,7 @@ export class UserController {
     }
 
     @Post()
-    postDataUser(@Body() data: UserDto): Promise<User> {
+    postDataUser(@Body(new ValidationPipe()) data: UserDto): Promise<User> {
         return this.userService.postData(data)
     }
 
